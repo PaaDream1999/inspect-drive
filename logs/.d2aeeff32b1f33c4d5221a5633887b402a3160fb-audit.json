@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 90
+    },
+    "auditLog": "D:\\Dev\\Next.js\\inspect-drive\\Docker\\inspect-drive-hostinger\\logs\\.d2aeeff32b1f33c4d5221a5633887b402a3160fb-audit.json",
+    "files": [
+        {
+            "date": 1749563762133,
+            "name": "D:\\Dev\\Next.js\\inspect-drive\\Docker\\inspect-drive-hostinger\\logs\\app-2025-06-10.log",
+            "hash": "0fca96c4994a988d46d7cc5328cdf15a372fd7d86fb8f0ad32b887e78f9b5a68"
+        }
+    ],
+    "hashType": "sha256"
+}

@@ -1,0 +1,9 @@
+node_modules
+.next
+Dockerfile
+.dockerignore
+.git
+.vscode
+# อยากให้บล็อก .env.production แต่ต้องเอา .env.local เข้าไป
+.env*
+!.env.local

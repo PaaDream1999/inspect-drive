@@ -1,0 +1,63 @@
+[{
+  "_id": {
+    "$oid": "67b862a7fb4f8e5878465442"
+  },
+  "username": "apisak",
+  "email": "apisak_saelim@rtaf.mi.th",
+  "passwordHash": "$2b$12$nj6SvfaAl0eBwFA2K3wfhec8skO6g1I/IXN2wYpBD4sLhjXTsnZl.",
+  "role": "Admin",
+  "department": {
+    "$oid": "680340bafab053b0c4bf42da"
+  },
+  "storageQuota": 20,
+  "isApproved": true,
+  "createdAt": {
+    "$date": "2025-02-21T11:25:27.212Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-10T10:09:45.076Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68175bfe94305d876dec301a"
+  },
+  "username": "apiwit",
+  "email": "apiwit_saelim@rtaf.mi.th",
+  "passwordHash": "$2b$10$6DhFu//kUz9FzdV5B1wt9O9cCq5xNyg5cBVlOgr5.DWakBrU2nwuK",
+  "role": "User",
+  "department": {
+    "$oid": "680340d4fab053b0c4bf42df"
+  },
+  "storageQuota": 20,
+  "isApproved": true,
+  "createdAt": {
+    "$date": "2025-05-04T12:22:22.708Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-04T17:56:06.372Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68175c2a94305d876dec3021"
+  },
+  "username": "apirak",
+  "email": "apirak_saelim@rtaf.mi.th",
+  "passwordHash": "$2b$10$na9QUETAg6GRv9QvZdm25u0rr7ITlWfeaWktKQzBo1cPkcZv3aDXa",
+  "role": "User",
+  "department": {
+    "$oid": "680340ddfab053b0c4bf42e7"
+  },
+  "storageQuota": 20,
+  "isApproved": true,
+  "createdAt": {
+    "$date": "2025-05-04T12:23:06.291Z"
+  },
+  "updatedAt": {
+    "$date": "2025-05-04T17:56:11.601Z"
+  },
+  "__v": 0
+}]

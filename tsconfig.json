@@ -1,0 +1,54 @@
+// inspect-drive\tsconfig.json
+
+{
+  "compilerOptions": {
+    // บังคับไม่ให้มีการเปลี่ยน case ของไฟล์
+    "forceConsistentCasingInFileNames": true,
+    // ตั้งเป้าหมายเป็น ESNext
+    "target": "ES2022",
+    // ไลบรารีที่ต้องการ (DOM + ESNext)
+    "lib": ["dom", "dom.iterable", "esnext"],
+    // อนุญาตให้ใช้ไฟล์ .js
+    "allowJs": true,
+    // ข้ามการเช็คไลบรารี
+    "skipLibCheck": true,
+    // เปิดใช้งานโหมด strict
+    "strict": true,
+    // ไม่ต้อง emit ไฟล์ .js (ให้ Next.js จัดการ)
+    "noEmit": true,
+    // รองรับ import/export แบบ esModule
+    "esModuleInterop": true,
+    // โมดูลเป็น esnext (ตรงกับ Next.js)
+    "module": "esnext",
+    // ระบบ resolution ของโมดูลเป็น bundler (ตั้งตาม Next.js 13)
+    "moduleResolution": "bundler",
+    // รองรับ import json
+    "resolveJsonModule": true,
+    // แยกแต่ละไฟล์เป็นโมดูล
+    "isolatedModules": true,
+    // รองรับ JSX (Preserve เพื่อให้ Next.js จัดการ)
+    "jsx": "preserve",
+    // เปิด incremental build
+    "incremental": true,
+    // ปลั๊กอินสำหรับ Next.js
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    // กำหนด alias @/ => ./src
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  // ต้องรวม "*.d.ts" ด้วย เพื่อให้ TS เห็นการประกาศ type
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.d.ts",
+    ".next/types/**/*.ts"
+  ],
+  // ไม่ต้องเช็คใน node_modules
+  "exclude": ["node_modules"]
+}

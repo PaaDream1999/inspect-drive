@@ -1,0 +1,11 @@
+# บังคับทุกไฟล์ text ให้ใช้ LF
+* text=auto eol=lf
+
+# บังคับ shell script ให้ใช้ LF
+*.sh text eol=lf
+
+# บังคับ JSON, Markdown, YAML ฯลฯ
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf

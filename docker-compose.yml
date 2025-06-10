@@ -1,0 +1,68 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        MONGODB_URI: ${MONGODB_URI}
+    image: inspect-drive-app:latest
+    container_name: inspect-drive-app
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      KMS_URL: ${KMS_URL}
+      BASE_URL: ${BASE_URL}
+      MONGODB_URI: ${MONGODB_URI}
+    depends_on:
+      inspect-mongodb:
+        condition: service_healthy
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - inspect-network
+      - kms-network
+    volumes:
+      - ./private/uploads:/app/private/uploads
+
+  inspect-mongodb:
+    image: mongo:6
+    container_name: inspect-mongodb
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - inspect-mongo-data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --quiet --eval \"db.adminCommand('ping').ok\""]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - inspect-network
+      - kms-network
+
+volumes:
+  inspect-mongo-data:
+
+networks:
+  inspect-network:
+    external: true
+  kms-network:
+    external: true

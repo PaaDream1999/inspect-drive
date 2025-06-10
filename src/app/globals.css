@@ -1,0 +1,21 @@
+/* inspect-drive\src\app\globals.css */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* กำหนดตัวแปรสีหลัก */
+:root {
+  --background: #ffffff; /* สีพื้นหลัง */
+  --foreground: #000000; /* สีตัวอักษร ปรับให้เข้มขึ้น */
+}
+
+body {
+  /* ใช้ Tailwind utility ผ่าน @apply เพื่อกำหนดสีพื้นหลังและสีตัวอักษร */
+  background-color: var(--background);
+  color: var(--foreground);
+  transition: color 300ms;
+  
+  /* กำหนดฟอนต์หลักให้กับทั้งเว็บ */
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
