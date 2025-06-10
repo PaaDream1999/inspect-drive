@@ -74,24 +74,6 @@
 
 ---
 
-## การติดตั้ง (Dev/Local)
-
-### ขั้นตอนเบื้องต้น
-1. ติดตั้ง `Node.js v20+`, `Docker`, `Docker Compose`
-2. คัดลอก `.env.local.example` ไปเป็น `.env.local` และตั้งค่าเช่น:
-
-```env
-MONGODB_URI=mongodb://mongodb:27017/inspect-drive
-KMS_URL=http://localhost:4000
-NEXTAUTH_SECRET=xxxxxxxx
-```
-
-### รันระบบ
-
-```bash
-docker-compose up --build
-```
-
 ## URLs
 
 | URL | หน้าที่ |
@@ -131,17 +113,6 @@ Body: FormData (field: file)
 
 ```ts
 POST http://localhost:4000/keys/generate
-```
-
----
-
-## การทดสอบ
-
-เฉพาะ `kms-service` ใช้ E2E test ผ่าน Supertest:
-
-```bash
-cd kms-service
-npm run test:e2e
 ```
 
 ---
