@@ -16,7 +16,7 @@ import File from '@/models/File';
 import SharedFile from '@/models/SharedFile';
 import logger from '@/lib/logger';
 
-const KMS_URL = process.env.KMS_URL ?? 'http://localhost:4000';
+const KMS_URL = process.env.KMS_URL ?? 'http://31.97.66.79:4000';
 const userDir = (uid: string) => path.join(process.cwd(), 'private', 'uploads', uid);
 
 /* Types */
