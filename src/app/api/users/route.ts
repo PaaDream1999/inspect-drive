@@ -91,10 +91,10 @@ export async function POST(req: NextRequest) {
       username,
       email,
       passwordHash: hashedPassword,
-      role:         isAdmin ? role ?? 'User' : 'User',
-      department:   isAdmin ? department : undefined,
-      storageQuota: isAdmin ? storageQuota : undefined,
-      isApproved:   false,
+      role,
+      department,
+      storageQuota,
+      isApproved: false,
     });
 
     const plain = newUser.toObject();
