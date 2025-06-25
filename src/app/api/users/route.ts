@@ -1,5 +1,3 @@
-// inspect-drive\Editing\inspect-drive-editing\src\app\api\users\route.ts
-
 export const runtime  = 'nodejs';
 export const dynamic  = 'force-dynamic';
 
@@ -41,10 +39,8 @@ interface DeleteUserBody { userId: string }
 const isReplicaSet = (conn: Connection): boolean =>
   typeof ((conn as unknown as { client: MongoClient }).client?.options?.replicaSet) === 'string';
 
-/* generic JSON respond - type-safe */
 const respond = <T>(data: T, status = 200) => NextResponse.json<T>(data, { status });
 
-/* guard - allow only Admin */
 const requireAdmin = async () => {
   const session = await getServerSession(authOptions);
   if (!session || session.user.role !== 'Admin') {
@@ -53,7 +49,7 @@ const requireAdmin = async () => {
   return null;
 };
 
-/* GET /api/users - รายชื่อผู้ใช้ทั้งหมด */
+/* GET /api/users */
 export async function GET() {
   const authError = await requireAdmin();
   if (authError) return authError;
@@ -68,16 +64,16 @@ export async function GET() {
   }
 }
 
-/* POST /api/users - สร้างผู้ใช้ใหม่ */
+/* POST /api/users – สมัครสมาชิก */
 export async function POST(req: NextRequest) {
-  const authError = await requireAdmin();
-  if (authError) return authError;
-
   try {
+    const session = await getServerSession(authOptions);
+    const isAdmin = session?.user?.role === 'Admin';
+
     await dbConnect();
     const {
       username, email, password,
-      role = 'User', department, storageQuota,
+      role, department, storageQuota,
     } = (await req.json()) as CreateUserBody;
 
     if (!username || !email || !password) {
@@ -95,10 +91,10 @@ export async function POST(req: NextRequest) {
       username,
       email,
       passwordHash: hashedPassword,
-      role,
-      department,
-      storageQuota,
-      isApproved: false,
+      role:         isAdmin ? role ?? 'User' : 'User',
+      department:   isAdmin ? department : undefined,
+      storageQuota: isAdmin ? storageQuota : undefined,
+      isApproved:   false,
     });
 
     const plain = newUser.toObject();
@@ -111,7 +107,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-/* PUT /api/users - อัปเดต / อนุมัติผู้ใช้ */
+/* PUT /api/users */
 export async function PUT(req: NextRequest) {
   const authError = await requireAdmin();
   if (authError) return authError;
@@ -142,7 +138,7 @@ export async function PUT(req: NextRequest) {
   }
 }
 
-/* DELETE /api/users - ลบผู้ใช้ + ไฟล์ + แชร์ */
+/* DELETE /api/users */
 export async function DELETE(req: NextRequest) {
   const authError = await requireAdmin();
   if (authError) return authError;
@@ -162,11 +158,9 @@ export async function DELETE(req: NextRequest) {
     const opts = session ? { session } : undefined;
 
     try {
-      /* ลบผู้ใช้ */
       const deletedUser = await User.findByIdAndDelete(userId, opts);
       if (!deletedUser) throw new Error(`User ${userId} ไม่พบในระบบ`);
 
-      /* ลบไฟล์ + แชร์ */
       const files      = await File.find({ owner: userId }, null, opts).lean();
       const dataKeyIds = files.map(f => f?.secretDK?.dataKeyId).filter(Boolean) as string[];
 
@@ -177,11 +171,9 @@ export async function DELETE(req: NextRequest) {
 
       if (session) { await session.commitTransaction(); session.endSession(); }
 
-      /* ลบโฟลเดอร์จริงบนดิสก์ */
       await fs.rm(userDir(userId), { recursive: true, force: true })
               .catch(e => logger.warn(`ลบโฟลเดอร์ ${userDir(userId)} ไม่สำเร็จ`, e));
 
-      /* แจ้ง KMS ลบ DK */
       await Promise.allSettled(
         dataKeyIds.map(dk => fetch(`${KMS_URL}/keys/${dk}`, { method: 'DELETE' })),
       );
