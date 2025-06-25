@@ -67,9 +67,6 @@ export async function GET() {
 /* POST /api/users – สมัครสมาชิก */
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    const isAdmin = session?.user?.role === 'Admin';
-
     await dbConnect();
     const {
       username, email, password,
